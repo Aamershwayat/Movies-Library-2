@@ -1,8 +1,8 @@
 {
   "name": "movies-library-2",
   "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
+  "description": "task12",
+  "main": "server.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
@@ -18,7 +18,9 @@
   },
   "homepage": "https://github.com/Aamershwayat/Movies-Library-2#readme",
   "dependencies": {
+    "axios": "^0.27.2",
     "cors": "^2.8.5",
+    "dotenv": "^16.0.0",
     "express": "^4.18.1"
   }
 }
