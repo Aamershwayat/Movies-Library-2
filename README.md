@@ -5,7 +5,7 @@
 
 ## WRRC
 //Add an image of your WRRC here
-![wrrc photo](/photoOfWrrc/Wrrc2.png)
+![wrrc photo](/photoOfWrrc/wrrc-h.png)
 ## Overview
 ## Getting Started
 <!-- What are the steps that a user must take in order to build this app on their own machine and get it running? -->
