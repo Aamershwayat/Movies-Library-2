@@ -16,12 +16,17 @@ const APIKEY = process.env.APIKEY;
 const PORT = process.env.PORT;
 
 // Prepair the connnection between database  and server using pg library and database URL from .env
-const client = new pg.Client(DATABASE_URL);
+const client = new pg.Client({
+    connectionString: process.env.DATABASE_URL,
+    ssl: { rejectUnauthorized: false }
+});
+
 
 // Endpoints, Routs, Path  
 app.get("/", (req, res) => {
     return res.status(200).send("Hello World");
 });
+
 app.get("/trending", trendingHandler);
 app.get("/upcoming", upcomingMovie)
 app.get("/search", searchMovieHandler)
@@ -32,9 +37,11 @@ app.put("/updateFavMovie/:id", updateFavMovies);// HERE we use params
 app.delete("/deleteFavMovies/:id", deleteFavMovies)
 app.get("/getFavMovies/:id", getFavmovies);
 
+
 // Use methods
 app.use(errorHandler);
 app.use("*", notFountHandler);
+
 
 // Constructor function decleration
 function Movie(title, id, release_date, poster_path, overview) {
@@ -43,6 +50,7 @@ function Movie(title, id, release_date, poster_path, overview) {
     this.release_date = release_date;
     this.poster_path = poster_path;
     this.overview = overview;
+
 }
 
 // Functions declerations:
@@ -73,6 +81,7 @@ function searchMovieHandler(req, res) {
         errorHandler(error, req, res);
     })
 }
+
 function getFavMovieHandler(req, res) {
     const sql = `SELECT * FROM favariteMovie`;
     client.query(sql)
@@ -83,6 +92,7 @@ function getFavMovieHandler(req, res) {
             errorHandler(error, req, res);
         });
 }
+
 function recommended(req, res) {
     let recommendFilmId = req.query.recommendFilmId;
     let movies = [];
@@ -96,6 +106,7 @@ function recommended(req, res) {
         errorHandler(error, req, res);
     })
 }
+
 function upcomingMovie(req, res) {
     let movies = [];
     axios.get(`https://api.themoviedb.org/3/movie/upcoming?api_key=${APIKEY}&language=en-US`).then(value => {
@@ -108,6 +119,7 @@ function upcomingMovie(req, res) {
         errorHandler(error, req, res);
     })
 }
+
 function addMovieHandler(req, res) {
     let movie = req.body;
     const sql = `INSERT INTO favariteMovie(title, release_date, poster_path, overview, comments) VALUES($1, $2, $3, $4, $5) RETURNING * ;`;
@@ -124,6 +136,7 @@ function addMovieHandler(req, res) {
         errorHandler(error, req, res);
     });
 }
+
 function updateFavMovies(req, res) {
     const idFromParams = req.params.id;
     //const idFromQuery=req.query.id;
@@ -138,6 +151,7 @@ function updateFavMovies(req, res) {
         errorHandler(error, req, res);
     })
 };
+
 function deleteFavMovies(req, res) {
     const id = req.params.id;
     console.log(req.params.id);
@@ -149,6 +163,7 @@ function deleteFavMovies(req, res) {
         errorHandler(error, req, res);
     })
 }
+
 function getFavmovies(req, res) {
     console.log(req.params);
     const id = JSON.parse(req.params.id);
@@ -160,9 +175,11 @@ function getFavmovies(req, res) {
         errorHandler(error, req, res);
     })
 }
+
 function notFountHandler(req, res) {
     res.status(404).send("No endpoint with this name");
 }
+
 function errorHandler(error, req, res) {
     const err = {
         status: 500,
