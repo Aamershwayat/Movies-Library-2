@@ -15,6 +15,6 @@
 ## Project Features
 <!-- What are the features included in you app -->
 How long did it take you to complete this assignment?
-8 hours continuously 
+1 hours 
  before you started, how long did you think it would take you to complete this assignment? 
- I was thimk it just needs 4h
+ I was thimk it just needs 3 hours
